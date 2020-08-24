@@ -1,5 +1,5 @@
 import time
-from flask import Flask
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -14,4 +14,7 @@ PRODUCTS = [
 
 @app.route('/products')
 def get_all_products():
-    return {'products': PRODUCTS}
+    return jsonify({'products': PRODUCTS})
+
+if __name__ == '__main__':
+    app.run(threaded=True, host='0.0.0.0', port=8080)

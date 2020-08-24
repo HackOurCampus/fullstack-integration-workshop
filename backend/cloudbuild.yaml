@@ -1,0 +1,10 @@
+# cloudbuild.yaml
+steps:
+  # build & push the container image
+- name: "gcr.io/kaniko-project/executor:latest"
+  args: ["--cache=true", "--cache-ttl=48h", "--destination=gcr.io/full-stack-integration/todo:latest"]
+  # Deploy container image to Cloud Run
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ['auth', 'activate-service-account', '993977647931-compute@developer.gserviceaccount.com', '--key-file=key.json']
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ['beta', 'run', 'deploy', 'todo', '--image', 'gcr.io/full-stack-integration/todo:latest', '--region', 'us-central1', '--allow-unauthenticated', '--platform', 'managed']
