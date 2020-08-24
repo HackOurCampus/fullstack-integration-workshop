@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ProductTable from './Starter';
+import React, { useState, useEffect } from 'react';
+import ProductTable from './Components';
 
 const SearchBar = ({
   filterText,
@@ -26,14 +26,20 @@ const SearchBar = ({
     </form>
   );
 
-const FilterableProductTable = ({ products }) => {
+const FilterableProductTable = () => {
+  const [products, setProducts] = useState([])
   const [filterText, setFilterText] = useState('');
   const [inStockOnly, setInStockOnly] = useState(false);
 
   const handleFilterTextChange = (e) => setFilterText(e.target.value);
   const handleCheckBoxChange = (e) => setInStockOnly(e.target.checked);
 
-  return (
+  useEffect(() => {
+    fetch('/products')
+      .then((resp) => resp.json())
+      .then(({ products }) => setProducts(products));
+  }, []);
+    return (
     <div>
       <SearchBar
         filterText={filterText}
