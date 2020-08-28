@@ -37,9 +37,10 @@ const FilterableProductTable = () => {
   useEffect(() => {
     fetch('/products')
       .then((resp) => resp.json())
-      .then(({ products }) => setProducts(products));
+      .then((res) => setProducts(res.products));
   }, []);
-    return (
+  
+  return (
     <div>
       <SearchBar
         filterText={filterText}
